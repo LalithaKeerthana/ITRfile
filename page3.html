@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Calculator</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+         .navbar {
+            background-color: #28a745; /* Green navbar background color */
+        }
+        nav a:hover {
+            background-color: #28a745;
+           
+        }
+
+        .navbar-dark .navbar-toggler-icon {
+            background-color: #fff; /* White color for the toggler icon */
+        }
+
+        .navbar-brand,
+        .navbar-nav .nav-link {
+            color: #fff !important; /* White text color for links and brand */
+        }
+
+        .navbar-brand:hover,
+        .navbar-nav .nav-link:hover {
+            color: #fff !important; /* White text color on hover */
+        }
+
+        .navbar-toggler {
+            border-color: #fff; /* White border color for toggler button */
+        }
+
+        .navbar-toggler:focus,
+        .navbar-toggler:active {
+            outline: none; /* Remove focus outline */
+            box-shadow: none; /* Remove box shadow on focus */
+        }
+
+        .dropdown-menu {
+            background-color: #28a745; /* Green dropdown background color */
+        }
+
+        .dropdown-item {
+            color: #fff !important; /* White text color for dropdown items */
+        }
+
+        .dropdown-item:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+       
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f3f3f3;
+        }
+
+        #taxCalculator {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333333;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #555555;
+        }
+
+        input {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: center;
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="C:\Users\nutri\OneDrive\Desktop\ITRFile\pyIndex.html">Home</a>
+                </li>
+                
+                <!-- Dropdown example -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a  class="dropdown-item" href="page1.html">Tax Residency </a>
+                        <a class="dropdown-item"  href="page2.html"> tax filing eligibility</a>
+                        <a  class="dropdown-item" href="page3.html"> tax calculator based on income</a>
+                        <a class="dropdown-item"  href="page4.html">Basic Tax calculator</a>
+                        <a class="dropdown-item"  href="page5.html">HRA</a>
+                        <a  class="dropdown-item" href="page6.html">Tax Deduction Calc</a>
+                        <a class="dropdown-item"  href="page7.html">House property income</a>
+                       
+                        <a  class="dropdown-item" href="page9.html">capital gains and income</a>
+                        <a class="dropdown-item"  href="page10.html">Home loan credit calc</a>
+                        <a  class="dropdown-item" href="page11.html">Agriculture tax calc</a>
+                        <a  class="dropdown-item" href="page12.html">Remittance tax</a>
+                        <a  class="dropdown-item" href="page13.html">Gift Tax Calc</a>
+                        <a  class="dropdown-item" href="page14.html">Penalty tax</a>
+                        
+                        <a  class="dropdown-item" href="page16.html">Income surcharge</a>
+                        <a  class="dropdown-item" href="page17.html">Education cess calc</a>
+                        <a  class="dropdown-item" href="page18.html">Tax Deduction Calc</a>
+                       
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="taxCalculator">
+        <h2>Tax Calculator</h2>
+        <label for="income">Enter your annual income:</label>
+        <input type="number" id="income" placeholder="Enter income">
+
+        <label for="natureOfIncome">Enter the nature of your income (comma-separated if multiple):</label>
+        <input type="text" id="natureOfIncome" placeholder="Enter nature of income">
+
+        <label for="numProperties">Enter the number of house properties:</label>
+        <input type="number" id="numProperties" placeholder="Enter number of properties">
+
+        <button onclick="calculateITR()">Calculate ITR Form</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function calculateITR() {
+            var income = document.getElementById('income').value;
+            var natureOfIncome = document.getElementById('natureOfIncome').value.split(",").map(function(item) {
+                return item.trim().toLowerCase();
+            });
+            var numProperties = document.getElementById('numProperties').value;
+
+            var itrForm = chooseITRForm(income, natureOfIncome, numProperties);
+
+            document.getElementById('result').innerText = "You should use ITR form: " + itrForm;
+        }
+
+        function chooseITRForm(income, natureOfIncome, numProperties) {
+            // Your JavaScript logic for ITR form selection goes here
+            // This function should return the appropriate ITR form based on the provided parameters
+            // You can use the logic from your original Python program
+        }
+    </script>
+</body>
+</html>
